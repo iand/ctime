@@ -177,3 +177,69 @@ func TestDuration(t *testing.T) {
 		t.Errorf("got %v, wanted %v", a.Duration(), time.Hour*24*4)
 	}
 }
+
+func TestZeroDurationIntervals(t *testing.T) {
+	testCases := []Interval{
+		Interval{},
+		Interval{Start: time.Date(2015, 1, 1, 0, 0, 0, 0, time.UTC), End: time.Date(2015, 1, 1, 0, 0, 0, 0, time.UTC)},
+	}
+
+	comparisons := []Interval{a, b, c, d, e}
+
+	for i, in := range testCases {
+		if in.Duration() != 0 {
+			t.Errorf("%d: got duration %v, wanted %v", i, in.Duration(), 0)
+		}
+
+		for _, co := range comparisons {
+			if in.Before(co) {
+				t.Errorf("%d: got before %v, wanted not", i, co)
+			}
+
+			if in.After(co) {
+				t.Errorf("%d: got after %v, wanted not", i, co)
+			}
+
+			if in.Overlaps(co) {
+				t.Errorf("%d: got overlaps %v, wanted not", i, co)
+			}
+
+			if in.OverlappedBy(co) {
+				t.Errorf("%d: got overlapped by %v, wanted not", i, co)
+			}
+
+			if in.During(co) {
+				t.Errorf("%d: got during %v, wanted not", i, co)
+			}
+
+			if in.Meets(co) {
+				t.Errorf("%d: got meets %v, wanted not", i, co)
+			}
+
+			if in.MetBy(co) {
+				t.Errorf("%d: got met by %v, wanted not", i, co)
+			}
+
+			if in.Starts(co) {
+				t.Errorf("%d: got starts %v, wanted not", i, co)
+			}
+
+			if in.StartedBy(co) {
+				t.Errorf("%d: got started by %v, wanted not", i, co)
+			}
+
+			if in.Finishes(co) {
+				t.Errorf("%d: got finishes %v, wanted not", i, co)
+			}
+
+			if in.FinishedBy(co) {
+				t.Errorf("%d: got finished by %v, wanted not", i, co)
+			}
+
+			if in.Intersects(co) {
+				t.Errorf("%d: got intersects %v, wanted not", i, co)
+			}
+		}
+
+	}
+}
