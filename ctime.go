@@ -5,7 +5,9 @@ import (
 	"time"
 )
 
-// An Interval is a period of time with a defined start and end
+// An Interval is a period of time with a defined start and end. The interval
+// includes the start time and every time instant up to but not including the
+// end time.
 type Interval struct {
 	Start time.Time
 	End   time.Time
@@ -14,6 +16,11 @@ type Interval struct {
 // Duration returns the duration of the time interval i.
 func (i Interval) Duration() time.Duration {
 	return i.End.Sub(i.Start)
+}
+
+// Contains reports whether the time instant t is contained within the time interval i.
+func (i Interval) Contains(t time.Time) bool {
+	return t.Before(i.End) && !t.Before(i.Start)
 }
 
 // Before reports whether the time interval i ends before time interval n starts.

@@ -67,6 +67,10 @@ var trueAssertions = []bool{
 	d.Intersects(e),
 	e.Intersects(d),
 	e.Intersects(e),
+
+	a.Contains(a.Start),
+	a.Contains(c.Start),
+	a.Contains(e.Start),
 }
 
 var falseAssertions = []bool{
@@ -148,6 +152,10 @@ var falseAssertions = []bool{
 	b.Intersects(d),
 	d.Intersects(a),
 	d.Intersects(b),
+
+	a.Contains(a.End),
+	a.Contains(b.Start),
+	a.Contains(d.Start),
 }
 
 func TestPredicates(t *testing.T) {
